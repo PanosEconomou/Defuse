@@ -1,0 +1,12 @@
+name = "Defuse"
+uuid = "fee2222c-cd66-43de-b3e4-e698bc3c6ab9"
+version = "0.1.0"
+authors = ["Panos Oikonomou <panos.economou.v@gmail.com>"]
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Nemo = "2edaba10-b0f1-5616-af89-8c11ac63239a"
+
+[compat]
+LinearAlgebra = "1.12.0"
+Nemo = "0.55.0"
