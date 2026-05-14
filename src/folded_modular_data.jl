@@ -1,8 +1,7 @@
 # Get the modular data for folded minimal models
 using LinearAlgebra
 
-
-function foldedMinimalModularData(p::Int=5,pp::Int=4)
+function folded_minimial_modular_data(p::Int=5,pp::Int=4)
 
     # Modular data for the minimal model
     cv          = 1 - 6 * (p - pp)^2/ (p * pp)
