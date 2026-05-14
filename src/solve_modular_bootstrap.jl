@@ -10,7 +10,7 @@ function build_coefficient_matrix(z,s)
         coefficients[:,i]  = vec(st[:,pos[1]] * transpose(s[pos[2],:]))
     end
 
-    return coeff
+    return coefficients
 end
 
 function invert_coefficients(coefficients)
@@ -23,11 +23,30 @@ function invert_coefficients(coefficients)
     return inv(coefficients[pivot_rows,:])
 end
 
+function extract_multipliers(system::Matrix{Float64})
+    result = fill(1,size(system,2))
+    for row in eachrow(system)
+        j = findfirst(!iszero,row)
+        j === nothing && continue
+        findnext(!iszero, row, j+1) === nothing || continue
+        @inbounds result[j] = max(result[j], 1/abs(row[j]))
+    end
+    return result
+end
+
 function normalize_system(coefficients, digits::Int = 14)
     inverse     = invert_coefficients(coefficients)
     system      = real(round.(coefficients * inverse, digits=digits))
     
     # Remove duplicates
     system      = system[unique(i -> system[i,:], 1:size(system,1)), :]
+
+    # Find if multipliers are needed
+    multipliers = extract_multipliers(system)
+
+    # Recast the system
+    system .*= multipliers'
+
+    return system, multipliers
 end
 
